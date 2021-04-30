@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <div id="left">
+
+            <nav id="side-bar">  
+                <button id="create-new" type="button" onclick="createNew();">Add New Book</button>
+            </nav>
+
+            <form name="bookForm" id="input-form">
+                <input type="text" id="title" placeholder="title">
+                <input type="text" id="author" placeholder="author">
+                <input type="text" id="pageCount" placeholder="# of Pages">
+                <p>Has book been read?</p>
+                <input type="checkbox" id="status">
+
+                <button type="button" onclick="addBook();">Confirm</button>
+            </form>
+
+            <div id="bar"></div>
+        </div>
+       
+        <div id="right">
+            
+        </div>
+    </body>
+
+    <script src="script.js"></script>
+</html>

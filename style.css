@@ -1,0 +1,78 @@
+body{
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    
+    background-color: black;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas: 
+    "left right right right right";
+    grid-gap: 10px;
+
+}
+
+#left {
+    overflow-y: scroll;
+    position:sticky;
+    grid-area: left;
+
+    background-color: brown;
+
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+}
+
+#left button {
+    width: 100%;
+}
+
+
+/*Form Styles*/
+form {
+    
+    background-color: gray;
+    display: none;
+}
+
+.active {
+
+    display: flex;
+    flex-direction: column;
+}
+
+#bar {
+    height: 10px;
+    background-color: black;
+}
+
+
+#right {
+    background-color: gray;
+    grid-area: right;
+   
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    overflow-x: scroll;
+
+    padding:5px;
+    justify-content: auto;
+ 
+ 
+}
+
+.cover-view {
+    margin-bottom: auto;
+    margin-top: auto;
+
+    margin-left: 10px;
+    margin-right: 10px;
+
+    background-color: blue;
+    
+    height: 600px;
+    width: 300px;
+}

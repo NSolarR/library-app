@@ -28,11 +28,24 @@ Book.prototype.info = function () {
 };
 
 //Add a new book to library
-function addBook () {
+function addBookToLibrary () {
     //Create new Book object and add to library array
     let book = new Book (inputForm[0].value, inputForm[1].value, inputForm[2].value, inputForm[3].checked);
     library.push(book);
 
+    render();
+}
+
+function render(){
+    //Destroys all book id elements when run and then remakes them
+    document.querySelectorAll('#book').forEach(e => e.remove());
+
+    library.forEach(book => {
+        createBook(book);
+    });
+}
+
+function createBook (book) {
     //Create new elements
     const newBook = document.createElement("p");
     const editButton = document.createElement("button");
@@ -41,14 +54,19 @@ function addBook () {
 
     //Set element content and styles
     deleteButton.textContent = "Delete";
-
+    deleteButton.id = "book";
+    deleteButton.addEventListener('click', () => {removeBook(book);})
+    
     editButton.textContent = "Edit";
+    editButton.id = "book";
 
     newBook.textContent = `${book.info()}`
     newBook.style.backgroundColor = "gray";
+    newBook.id = "book";
 
     buttonHolder.style.display = "flex";
     buttonHolder.style.flexDirection = "row";
+    buttonHolder.id = "book";
 
     //Append elements to the bookBar
     bookBar.appendChild(newBook);
@@ -57,9 +75,21 @@ function addBook () {
     buttonHolder.appendChild(editButton);
     buttonHolder.appendChild(deleteButton);
 
+    //Right side
+    const bookDiv = document.createElement("div");
+    const title = document.createElement("h1");
+
+    bookDiv.classList.add('cover-view');
+    bookDiv.id = "book";
+
+    title.textContent = `${book.title}`;
+    title.id = "book";
+
+    rightSide.appendChild(bookDiv);
+    bookDiv.appendChild(title);
+
     inputForm.classList.remove('active');
 
-    mainBookView();
 }
 
 //Unhide add book form
@@ -67,10 +97,13 @@ function createNew() {
     inputForm.classList.add('active');
 }
 
-//Show full scale books in main view
-function mainBookView() {
-    const bookDiv = document.createElement("div");
-    bookDiv.classList.add('cover-view');
+///Removes book and dom elements at the index of x in library
+function removeBook(book) {
+    library.splice(library.indexOf(book), 1);
+    render(book);
+    saveData();
+}
 
-    rightSide.appendChild(bookDiv);
+function saveData() {
+
 }

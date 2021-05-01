@@ -27,6 +27,15 @@ Book.prototype.info = function () {
     return (`${this.title}, by ${this.author}. # of Pages: ${this.pageCount}. Status: ${read}`);
 };
 
+//Adds a function to books to toggle read status
+Book.prototype.readToggle = function() {
+    if (this.readStatus === true) {
+        this.readStatus = false;
+    } else {
+        this.readStatus = true;
+    }
+}
+
 //Add a new book to library
 function addBookToLibrary () {
     //Create new Book object and add to library array
@@ -48,7 +57,7 @@ function render(){
 function createBook (book) {
     //Create new elements
     const newBook = document.createElement("p");
-    const editButton = document.createElement("button");
+    const statusButton = document.createElement("button");
     const deleteButton = document.createElement("button");
     const buttonHolder = document.createElement("div");
 
@@ -57,8 +66,10 @@ function createBook (book) {
     deleteButton.id = "book";
     deleteButton.addEventListener('click', () => {removeBook(book);})
     
-    editButton.textContent = "Edit";
-    editButton.id = "book";
+    statusButton.textContent = "Toggle read Status";
+    statusButton.id = "book";
+    statusButton.addEventListener('click', () => {book.readToggle();
+        render(book);});
 
     newBook.textContent = `${book.info()}`
     newBook.style.backgroundColor = "gray";
@@ -72,7 +83,7 @@ function createBook (book) {
     bookBar.appendChild(newBook);
     newBook.appendChild(buttonHolder);
 
-    buttonHolder.appendChild(editButton);
+    buttonHolder.appendChild(statusButton);
     buttonHolder.appendChild(deleteButton);
 
     //Right side

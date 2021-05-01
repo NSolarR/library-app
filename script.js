@@ -1,6 +1,5 @@
 //Create our library
 let library = [];
-let canStore;
 
 //Get reference to input
 const inputForm = document.getElementById("input-form");
@@ -15,38 +14,23 @@ function Book (title, author, pageCount, readStatus) {
     this.readStatus = readStatus;
 }
 
-//Adds a function to book constructor that returns a string of information on your book.
-Book.prototype.info = function () {
-    let read;
-  
-    if (this.readStatus === true) {
-        read = "Finished";
-    } else {
-        read =  "Still Reading"
-    }
-
-    return (`${this.title}, by ${this.author}. \n Number of Pages: ${this.pageCount}. \n Status: ${read}`);
-};
-
-//Adds a function to books to toggle read status
-Book.prototype.readToggle = function() {
-    if (this.readStatus === true) {
-        this.readStatus = false;
-    } else {
-        this.readStatus = true;
-    }
-}
-
 //Add a new book to library
 function addBookToLibrary () {
     //Create new Book object and add to library array
     let book = new Book (inputForm[0].value, inputForm[1].value, inputForm[2].value, inputForm[3].checked);
+
+    let read;
+  
+    if (book.readStatus === true) {
+        read = "Finished";
+    } else {
+        read =  "Still Reading";
+    }
+
+    book.info = `${book.title}, by ${book.author}. Number of Pages: ${book.pageCount}. Status: ${read}`;
     library.push(book);
 
-    if (canStore) {
-        saveData();
-    }
-    
+    saveData();
     render();
 }
 
@@ -73,10 +57,19 @@ function createBook (book) {
     
     statusButton.textContent = "Toggle read Status";
     statusButton.id = "book";
-    statusButton.addEventListener('click', () => {book.readToggle();
-        render(book);});
+    statusButton.addEventListener('click', () => {
+        if (book.readStatus === true) {
+            book.readStatus = false;
+            saveData();
+            render();
+        } else if (book.readStatus === false){
+            book.readStatus = true;
+            saveData();
+            render();
+        }
+    });
 
-    newBook.textContent = `${book.info()}`
+    newBook.textContent = `${book.info}`;
     if (book.readStatus === true) {
         newBook.classList.add("read");
         newBook.classList.remove("not-read");
@@ -145,7 +138,7 @@ function createNew() {
 function removeBook(book) {
     library.splice(library.indexOf(book), 1);
     saveData();
-    render(book);
+    render();
     
 }
 
@@ -158,11 +151,13 @@ function saveData() {
 //pulls books from local storage when page is refreshed
 function restore() {
     if(!localStorage.library) {
-        render();
+        return;
     }else {
-        let objects = localStorage.getItem('library')
-        objects = JSON.parse(objects);
-        library = objects;
+        let stored = localStorage.getItem('library');
+        stored = JSON.parse(stored);
+        library = stored;
         render();
     }
 }
+
+restore();

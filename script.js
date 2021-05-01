@@ -1,5 +1,6 @@
 //Create our library
 let library = [];
+let canStore;
 
 //Get reference to input
 const inputForm = document.getElementById("input-form");
@@ -24,7 +25,7 @@ Book.prototype.info = function () {
         read =  "Still Reading"
     }
 
-    return (`${this.title}, by ${this.author}. # of Pages: ${this.pageCount}. Status: ${read}`);
+    return (`${this.title}, by ${this.author}. \n Number of Pages: ${this.pageCount}. \n Status: ${read}`);
 };
 
 //Adds a function to books to toggle read status
@@ -42,6 +43,10 @@ function addBookToLibrary () {
     let book = new Book (inputForm[0].value, inputForm[1].value, inputForm[2].value, inputForm[3].checked);
     library.push(book);
 
+    if (canStore) {
+        saveData();
+    }
+    
     render();
 }
 
@@ -72,8 +77,15 @@ function createBook (book) {
         render(book);});
 
     newBook.textContent = `${book.info()}`
-    newBook.style.backgroundColor = "rgb(53, 77, 54)";
-    newBook.style.borderStyle = "solid";
+    if (book.readStatus === true) {
+        newBook.classList.add("read");
+        newBook.classList.remove("not-read");
+    } else {
+        newBook.classList.remove("read");
+        newBook.classList.add("not-read");
+    }
+
+
     newBook.id = "book";
 
     buttonHolder.style.display = "flex";
@@ -90,13 +102,26 @@ function createBook (book) {
     //Right side
     const bookDiv = document.createElement("div");
     const title = document.createElement("h1");
+    const author = document.createElement("h2");
+    const numPages = document.createElement("h2");
     const dividerLine = document.createElement("div");
-
-    bookDiv.classList.add('cover-view');
+    
+    if (book.readStatus === true) {
+        bookDiv.classList.add('cover-view-read');
+    } else {
+        bookDiv.classList.add('cover-view');
+    }
+    
     bookDiv.id = "book";
 
     title.textContent = `${book.title}`;
     title.id = "book";
+
+    author.textContent = `Written by \n ${book.author}`;
+    author.id = "book";
+
+    numPages.textContent = `Page Count: ${book.pageCount}`;
+    numPages.id = "book";
 
     dividerLine.classList.add('bar');
     dividerLine.id = "book";
@@ -104,6 +129,8 @@ function createBook (book) {
     rightSide.appendChild(bookDiv);
     bookDiv.appendChild(title);
     bookDiv.appendChild(dividerLine);
+    bookDiv.appendChild(author);
+    bookDiv.appendChild(numPages);
 
     inputForm.classList.remove('active');
 
@@ -117,11 +144,25 @@ function createNew() {
 ///Removes book and dom elements at the index of x in library
 function removeBook(book) {
     library.splice(library.indexOf(book), 1);
-    render(book);
     saveData();
+    render(book);
+    
 }
 
 //Save local data
 function saveData() {
+    localStorage.setItem("library", JSON.stringify(library));
+}
 
+
+//pulls books from local storage when page is refreshed
+function restore() {
+    if(!localStorage.library) {
+        render();
+    }else {
+        let objects = localStorage.getItem('library')
+        objects = JSON.parse(objects);
+        library = objects;
+        render();
+    }
 }

@@ -72,7 +72,8 @@ function createBook (book) {
         render(book);});
 
     newBook.textContent = `${book.info()}`
-    newBook.style.backgroundColor = "gray";
+    newBook.style.backgroundColor = "rgb(53, 77, 54)";
+    newBook.style.borderStyle = "solid";
     newBook.id = "book";
 
     buttonHolder.style.display = "flex";
@@ -89,6 +90,7 @@ function createBook (book) {
     //Right side
     const bookDiv = document.createElement("div");
     const title = document.createElement("h1");
+    const dividerLine = document.createElement("div");
 
     bookDiv.classList.add('cover-view');
     bookDiv.id = "book";
@@ -96,8 +98,12 @@ function createBook (book) {
     title.textContent = `${book.title}`;
     title.id = "book";
 
+    dividerLine.classList.add('bar');
+    dividerLine.id = "book";
+
     rightSide.appendChild(bookDiv);
     bookDiv.appendChild(title);
+    bookDiv.appendChild(dividerLine);
 
     inputForm.classList.remove('active');
 
@@ -115,6 +121,7 @@ function removeBook(book) {
     saveData();
 }
 
+//Save local data
 function saveData() {
 
 }

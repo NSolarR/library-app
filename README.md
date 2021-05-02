@@ -29,10 +29,23 @@
         bookss from their library.
 
         -User should also be able to edit
-        their book info.
+        a books read status.
         
         -Once all the logic is laid out,
         make the app look pretty.
 
 # Post project thoughts
-    Update
+    Took me quite a while to actually think of
+    a way to render out everything based off an
+    array. The final solution was to add objects
+    to an array and then re render all dom elements
+    that would need to change, based off the new array.
+    
+    I'm definitely not that satisfied with the visuals
+    on this project though. The color scheme is kinda
+    meh and the side bar probably should've just been
+    scrapped.
+
+    I'm still proud that I was able to figure out
+    the functionality though, as well as implement
+    local storage.
